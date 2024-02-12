@@ -1,0 +1,10 @@
+/front/inventorymgr-app/node_modules
+/back/inventorymgr-api/node_modules
+
+/front/inventorymgr-app/dist
+/back/inventorymgr-api/dist
+
+/back/inventorymgr-api/test
+
+p.txt
+fonts
