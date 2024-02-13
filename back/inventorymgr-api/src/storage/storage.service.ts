@@ -1,32 +1,46 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateStorageDto } from './dto/create-storage.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Storage, StorageDocument } from './entities/storage.schema';
-import { StorageEtt } from './entities/storage.entity';
 import { Product, ProductDocument } from 'src/product/entities/product.schema';
+import { User, UserDocument } from 'src/user/entities/user.schema';
 
 @Injectable()
 export class StorageService {
   constructor(
     @InjectModel(Storage.name) private storageModel: Model<StorageDocument>,
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
 
-  create(createStorageDto: CreateStorageDto) {
-    let newStorage = new StorageEtt(
-      createStorageDto.name,
-      createStorageDto.description,
-    );
-    return this.storageModel.create(newStorage);
-  }
+  async create(id: string, createStorageDto: CreateStorageDto) {
+    const userObjId = new mongoose.Types.ObjectId(id)
+    const user = await this.userModel.findById(userObjId).exec();
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const newStorage = new this.storageModel({ ...createStorageDto, owner: user._id });
+
+    const savedStorage = await newStorage.save();
+
+    user.storages.push(savedStorage);
+    await user.save();
+
+    return savedStorage;
+}
 
   findAll() {
     return this.storageModel.find().exec();
   }
 
   findOne(id: string) {
-    return this.storageModel.findById(id).populate('products').exec();
+    return this.storageModel
+      .findById(id)
+      .populate('owner')
+      .exec();
   }
 
   async findOneWithPagination(id: string, page: number, limit: number) {
@@ -37,17 +51,20 @@ export class StorageService {
     const storage = await this.storageModel.findById(id).exec();
 
     if (!storage) {
-        throw new NotFoundException(`Storage with id ${id} not found.`);
+      throw new NotFoundException(`Storage with id ${id} not found.`);
     }
 
-    const products = await this.productModel.find({ storage: id }).skip(skip).limit(limit).exec();
+    const products = await this.productModel
+      .find({ storage: id })
+      .skip(skip)
+      .limit(limit)
+      .exec();
 
     return {
-        ...storage.toObject(),
-        products,
+      ...storage.toObject(),
+      products,
     };
-}
-
+  }
 
   update(id: string, updateStorageDto: CreateStorageDto) {
     return this.storageModel

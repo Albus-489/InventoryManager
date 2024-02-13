@@ -15,9 +15,9 @@ import { CreateStorageDto } from './dto/create-storage.dto';
 export class StorageController {
   constructor(private readonly storageService: StorageService) {}
 
-  @Post()
-  create(@Body() createStorageDto: CreateStorageDto) {
-    return this.storageService.create(createStorageDto);
+  @Post(':id')
+  create(@Param() id: string, @Body() createStorageDto: CreateStorageDto) {
+    return this.storageService.create(id, createStorageDto);
   }
 
   @Get()

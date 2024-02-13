@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
-import { ProductEtt } from 'src/product/entities/product.entity';
-import { User } from 'src/user/entities/user.schema';
+import { Product } from 'src/product/entities/product.schema';
+import { User, UserDocument } from 'src/user/entities/user.schema';
 export type StorageDocument = Storage & Document;
 
 @Schema()
@@ -14,14 +14,15 @@ export class Storage {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
     required: false,
   })
-  products: ProductEtt[];
+  products: Product[];
 
-  // @Prop({
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'User',
-  //   required: true,
-  // })
-  // owner: User;
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    default: () => new mongoose.Types.ObjectId("65cb3229ed3c176bcc80da67")
+  })
+  owner: User;
 }
 
 export const StorageSchema = SchemaFactory.createForClass(Storage);
