@@ -22,7 +22,7 @@ export class StorageService {
       throw new Error('User not found');
     }
 
-    const newStorage = new this.storageModel({ ...createStorageDto, owner: user._id });
+    const newStorage = new this.storageModel({ ...createStorageDto, owner: user });
 
     const savedStorage = await newStorage.save();
 
@@ -39,7 +39,7 @@ export class StorageService {
   findOne(id: string) {
     return this.storageModel
       .findById(id)
-      .populate('owner')
+      .populate("owner")
       .exec();
   }
 
@@ -81,6 +81,7 @@ export class StorageService {
   async remove(storageId: string) {
     // Отримання інформації про склад
     const storage = await this.storageModel.findById(storageId);
+    const user = await this.userModel.findById(storage.owner);
 
     // Перевірка, чи існує склад
     if (!storage) {

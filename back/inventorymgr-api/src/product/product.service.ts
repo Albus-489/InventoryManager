@@ -14,8 +14,11 @@ export class ProductService {
   ) {}
 
   async create(storageId: string, createProductDto: CreateProductDto) {
-    const storageObjId = new mongoose.Types.ObjectId(storageId)
-    const newProduct = new this.productModel(storageObjId, createProductDto);
+    const storage = await this.storageModel.findById(storageId);
+    const newProduct = new this.productModel({
+      ...createProductDto,
+      storage: storage,
+    });
 
     return await this.productModel.create(newProduct).then((newProduct) => {
       return this.storageModel.findByIdAndUpdate(
@@ -31,7 +34,7 @@ export class ProductService {
   }
 
   async findOne(id: string) {
-    return await this.productModel.findById(id).exec();
+    return await this.productModel.findById(id).populate("storage").exec();
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
@@ -68,6 +71,5 @@ export class ProductService {
     );
 
     return { message: 'Product successfully deleted' };
-
   }
 }
