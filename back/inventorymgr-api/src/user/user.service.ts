@@ -13,15 +13,9 @@ export class UserService {
     @InjectModel(User.name) private userModel: Model<UserDocument>
   ) {}
 
-  // create(createUserDto: CreateUserDto) {
-  //   return this.userModel.create(createUserDto);
-  // }
-
   async createUser(createUserDto: CreateUserDto): Promise<User> {
   
-    const user = new this.userModel({
-      ...createUserDto
-    });
+    const user = new this.userModel(createUserDto);
   
     return user.save();
   }
@@ -34,8 +28,8 @@ export class UserService {
     return this.userModel.findOne({email: email}).exec();
   }
 
-  findOne(id: string) {
-    return this.userModel.findById(id).exec();
+  async findOne(id: string) {
+    return await this.userModel.findById(id).populate('storages').exec();
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {

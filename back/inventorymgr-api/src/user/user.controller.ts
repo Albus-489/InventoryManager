@@ -8,15 +8,9 @@ import * as bcrypt from 'bcrypt';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('/signup')
+  @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    const saltOrRounds = 10;
-    const hashedPassword = await bcrypt.hash(createUserDto.password, saltOrRounds);
-    createUserDto.password = hashedPassword;
-    
-    
     return this.userService.createUser(createUserDto);
-    // return this.comparePasswords("badum-tss", hashedPassword)
   }
 
   async comparePasswords(somePassword: string, hashedPassword: string){
