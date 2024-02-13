@@ -2,10 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Product, ProductDocument } from './entities/product.schema';
 import { Storage, StorageDocument } from 'src/storage/entities/storage.schema';
-import { ProductEtt } from './entities/product.entity';
 
 @Injectable()
 export class ProductService {
@@ -14,18 +13,11 @@ export class ProductService {
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
   ) {}
 
-  create(storageId: string, createProductDto: CreateProductDto) {
-    const newProduct = new ProductEtt(
-      createProductDto.name,
-      createProductDto.photo,
-      createProductDto.group,
-      createProductDto.lastPurchase,
-      createProductDto.qtt,
-      createProductDto.minimum,
-      createProductDto.available,
-      storageId,
-    );
-    return this.productModel.create(newProduct).then((newProduct) => {
+  async create(storageId: string, createProductDto: CreateProductDto) {
+    const storageObjId = new mongoose.Types.ObjectId(storageId)
+    const newProduct = new this.productModel(storageObjId, createProductDto);
+
+    return await this.productModel.create(newProduct).then((newProduct) => {
       return this.storageModel.findByIdAndUpdate(
         storageId,
         { $push: { products: newProduct._id } },
@@ -34,16 +26,16 @@ export class ProductService {
     });
   }
 
-  findAll() {
-    return this.productModel.find().exec();
+  async findAll() {
+    return await this.productModel.find().exec();
   }
 
-  findOne(id: string) {
-    return this.productModel.findById(id).exec();
+  async findOne(id: string) {
+    return await this.productModel.findById(id).exec();
   }
 
-  update(id: string, updateProductDto: UpdateProductDto) {
-    return this.productModel
+  async update(id: string, updateProductDto: UpdateProductDto) {
+    return await this.productModel
       .findByIdAndUpdate(id, updateProductDto, {
         new: true,
         useFindAndModify: false,

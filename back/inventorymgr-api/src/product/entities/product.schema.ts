@@ -1,44 +1,44 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
-import { StorageEtt } from 'src/storage/entities/storage.entity';
-import { User } from 'src/user/entities/user.schema';
+import mongoose from 'mongoose';
+import { Storage } from 'src/storage/entities/storage.schema';
 export type ProductDocument = Product & Document;
 
 @Schema()
 export class Product {
   @Prop()
   name: string;
-  @Prop()
+
+  @Prop({
+    default: () =>
+      'https://www.kangarooselfstorage.co.uk/wp-content/uploads/2018/12/Business-Storage-Archive-Storage-1.jpg',
+  })
   photo: string;
 
-  @Prop()
+  @Prop({default: ''})
   group: string;
 
-  @Prop()
-  lastPurchase: Date;
-
-  @Prop()
+  @Prop({default: 0})
   qtt: number;
 
-  @Prop()
+  @Prop({default: 0})
   minimum: number;
 
-  @Prop()
+  @Prop({default: false})
   available: boolean;
+
+  @Prop({default: () => new Date()})
+  lastPurchase: Date;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Storage',
     required: false,
   })
-  storage: StorageEtt;
+  storage: Storage;
 
-  // @Prop({
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'User',
-  //   required: true,
-  // })
-  // owner: User;
+  constructor(product: Product){
+    Object.assign(this, product)
+  }
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
