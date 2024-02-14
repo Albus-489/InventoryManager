@@ -1,4 +1,6 @@
-<div class="menu-item">
+<div [routerLink]="['/', link]" routerLinkActive="active" class="menu-item">
   <img src="{{ image_path }}" alt="item_menu_image" />
-  <div [routerLink]="['/storages_page']" routerLinkActive="router-link-active" >{{ text }}</div>
+  <div>
+    {{ text }}
+  </div>
 </div>
