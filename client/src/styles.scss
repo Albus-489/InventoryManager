@@ -1,12 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 body{
   font-family: NunitoSans, sans-serif;
-  padding: 40px 35px;
-  margin: 0;
-  background-color: black;
+  background-color: #333030;
   color: wheat;
 }
 *, html{
-  // margin: 0;
-  // padding: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
