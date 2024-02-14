@@ -3,6 +3,7 @@ import { StoragesPageComponent } from './components/storages-page/storages-page.
 import { AboutComponent } from './components/about/about.component';
 
 export const routes: Routes = [
-  { path: 'storages_page', component: StoragesPageComponent },
+  { path: 'storages', component: StoragesPageComponent },
   { path: 'about', component: AboutComponent },
+  { path: '**', redirectTo:'storages'}
 ];
