@@ -10,8 +10,8 @@ import { RouterModule } from '@angular/router';
   styleUrl: './menu-item.component.scss',
 })
 export class MenuItemComponent {
-  @Input() text: string = 'Text';
+  @Input() text: string = '';
   @Input() image_path: string = 'assets/menu-items/default.png';
-  @Input() link: string = 'assets/menu-items/default.png'
+  @Input() link: string = ''
 
 }
