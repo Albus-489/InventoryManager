@@ -1,0 +1,26 @@
+.storage-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 2% 0;
+  box-shadow: 0 0 15px black;
+  user-select: none;
+  cursor: pointer;
+  padding: 5%;
+  border-radius: 25px;
+}
+
+// TODO storage picture on the background
+.storage-item .storage-name {
+  // opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.storage-item:hover .storage-name {
+  opacity: 1;
+}
+
+.storage-item:hover {
+  background-color: rgba(0, 0, 0, 0.166);
+  transition: opacity 0.3s ease; /* Анимация появления */
+}

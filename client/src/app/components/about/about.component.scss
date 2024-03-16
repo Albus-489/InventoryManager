@@ -1,0 +1,27 @@
+:host{
+  width: 100%;
+}
+.about{
+  height: calc(100vh - 155px);
+  font-size: 50px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+.contact{
+  margin: 0 0 1% 0;
+  padding: 1%;
+  user-select: none;
+}
+.contact-value{
+  background-color: rgba(51, 48, 48, 0.539);
+  border-radius: 15px;
+  cursor: pointer;
+  padding: .5%;
+  transition: all .2 ease;
+}
+
+.contact-value:hover{
+  background-color: rgba(51, 48, 48, 0.699);
+  box-shadow: 0 0 5px 0px black;
+}

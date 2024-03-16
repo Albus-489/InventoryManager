@@ -10,6 +10,10 @@ export class Storage {
   name: string;
   @Prop()
   description: string;
+
+  @Prop()
+  picture: string;
+
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
     required: false,

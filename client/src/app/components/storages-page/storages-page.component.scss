@@ -1,0 +1,48 @@
+.btn-create-storage {
+  font-size: 28px;
+  background-color: #474647;
+  padding: 1% 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 320px;
+  border-radius: 15px;
+  cursor: pointer;
+  user-select: none;
+  transition: all ease 0.3s;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.489);
+}
+
+.storage-items-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4%;
+}
+
+.btn-create-storage:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.79);
+}
+
+.storage-items {
+  height: calc(100vh - 265px);
+  overflow-y: scroll;
+  padding: 2%;
+}
+
+:host {
+  width: 100%;
+}
+
+.btn-change-view {
+  cursor: pointer;
+}
+
+.tile-view{
+//  font-size: 100px !important;
+display: flex;
+}
+
+.list-view{
+
+}

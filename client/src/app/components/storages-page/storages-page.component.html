@@ -1,1 +1,23 @@
-<p>storages-page works!</p>
+<div class="storages-page">
+  <div class="storage-items-options">
+    <div class="btn-find-storage-item">
+      <span>Find</span>
+    </div>
+    <div class="btn-create-storage">
+      <span>Create storage</span>
+    </div>
+    <div (click)="changeView()" class="btn-change-view">
+      @if (tile === true) {
+        <img src="assets/storages-page/view_tile.png" alt="">
+      } @else {
+        <img src="assets/storages-page/view_list.png" alt="">
+      }
+    </div>
+  </div>
+
+  <div class="storage-items" [ngClass]="{'tile-view': tile}">
+    @for (item of storageItems; track item.name) {
+      <app-storage-item storageName="{{ item.name }}" storagePicture="" />
+    }
+  </div>
+</div>

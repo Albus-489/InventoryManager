@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-storage-item',
@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './storage-item.component.scss'
 })
 export class StorageItemComponent {
-
+  @Input() storageName: string = ''
+  @Input() storagePicture: string = ''
 }
